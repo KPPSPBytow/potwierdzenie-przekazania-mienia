@@ -1,0 +1,1 @@
+# potwierdzenie-przekazania-mienia
