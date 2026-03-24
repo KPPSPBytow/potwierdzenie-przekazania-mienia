@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Potwierdzenie przekazania</title>
+
+<style>
+body {
+    font-family: "Times New Roman", serif;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 700px;
+}
+
+h2, h3 {
+    text-align: center;
+}
+
+.form-line {
+    border: none;
+    border-bottom: 1px dotted black;
+    width: 100%;
+    font-size: 16px;
+    outline: none;
+}
+
+.inline {
+    display: inline-block;
+    border: none;
+    border-bottom: 1px dotted black;
+    outline: none;
+    font-size: 16px;
+}
+
+textarea {
+    width: 100%;
+    border: 1px dotted black;
+    min-height: 80px;
+    resize: vertical;
+    font-family: "Times New Roman", serif;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>POTWIERDZENIE</h2>
+<h3>PRZEKAZANIA TERENU, OBIEKTU LUB MIENIA</h3>
+
+<div class="section">
+    Dotyczy zdarzenia w:
+    <input type="text" id="miejsce" class="form-line">
+</div>
+
+<div class="section">
+    W dniu 
+    <input type="text" id="data" class="inline" style="width:150px;">
+    o godzinie 
+    <input type="text" id="godzina" class="inline" style="width:100px;">
+</div>
+
+<div class="section">
+    Przekazuję:
+    <input type="text" id="przekazujacy_do" class="form-line">
+</div>
+
+<div class="section">
+    Teren / obiekt:
+    <textarea id="teren"></textarea>
+</div>
+
+<div class="section">
+    Uwagi:
+    <textarea id="uwagi"></textarea>
+</div>
+
+<div class="section">
+    Przekazujący:<br>
+    <input type="text" id="podpis_przekazujacego" class="form-line">
+</div>
+
+<div class="section">
+    Przejmujący:<br>
+    <input type="text" id="podpis_przejmujacego" class="form-line">
+</div>
+
+<br>
+
+Miejscowość:
+<input type="text" id="miejscowosc" class="inline" style="width:200px;">
+dnia
+<input type="text" id="data2" class="inline" style="width:150px;">
+
+<br><br>
+
+<button onclick="wyslij()">Wyślij</button>
+
+</div>
+
+<script>
+function wyslij() {
+
+    const webhookURL = "https://discord.com/api/webhooks/1486051253132988556/h7sJEBBGYvPjkPYGltOUeR34ONLB2anqdDysTCKUgHWka4CknGivN21YQ3Pi7poSD-fd";
+
+    const embed = {
+        title: "📄 POTWIERDZENIE PRZEKAZANIA TERENU, OBIEKU LUB MIENIA OBJĘTEGO DZIAŁANIAMI RATOWNICZYM",
+        color: 16777215, // biały kolor
+        fields: [
+            {
+                name: "📍 Miejsce",
+                value: document.getElementById("miejsce").value || "-",
+                inline: false
+            },
+            {
+                name: "📅 Data",
+                value: document.getElementById("data").value || "-",
+                inline: false
+            },
+            {
+                name: "⏰ Godzina",
+                value: document.getElementById("godzina").value || "-",
+                inline: false
+            },
+            {
+                name: "➡️ Przekazany do",
+                value: document.getElementById("przekazujacy_do").value || "-",
+                inline: false
+            },
+            {
+                name: "🏗️ Teren / Obiekt",
+                value: document.getElementById("teren").value || "-",
+                inline: false
+            },
+            {
+                name: "📝 Uwagi",
+                value: document.getElementById("uwagi").value || "-",
+                inline: false
+            },
+            {
+                name: "👤 Podpis przekazującego",
+                value: document.getElementById("podpis_przekazujacego").value || "-",
+                inline: false
+            },
+            {
+                name: "👤 Podpis przejmującego",
+                value: document.getElementById("podpis_przejmujacego").value || "-",
+                inline: false
+            },
+            {
+                name: "📌 Miejscowość",
+                value: document.getElementById("miejscowosc").value || "-",
+                inline: false
+            },
+            {
+                name: "📅 Data końcowa",
+                value: document.getElementById("data2").value || "-",
+                inline: false
+            }
+        ],
+        timestamp: new Date().toISOString()
+    };
+
+    fetch(webhookURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: "System przekazań",
+            embeds: [embed]
+        })
+    })
+    .then(() => alert("Wysłano na Discord ✅"))
+    .catch(() => alert("Błąd wysyłania ❌"));
+}
+</script>
+
+</body>
+</html>
